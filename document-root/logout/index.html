@@ -1,0 +1,33 @@
+<?php
+// セッションの初期化
+// session_name("something")を使用している場合は特にこれを忘れないように!
+session_start();
+
+// セッション変数を全て解除する
+$_SESSION = array();
+
+// セッションを切断するにはセッションクッキーも削除する。
+// Note: セッション情報だけでなくセッションを破壊する。
+if (ini_get("session.use_cookies")) {
+    $params = session_get_cookie_params();
+    setcookie(session_name(), '', time() - 42000,
+        $params["path"], $params["domain"],
+        $params["secure"], $params["httponly"]
+    );
+}
+
+// 最終的に、セッションを破壊する
+session_destroy();
+?>
+
+<!doctype html>
+<html>
+<head></head>
+<body>
+<div style="text-align:center;">
+<h1>ログアウト処理が完了しました</h1>
+<iframe src="https://hasami.jp.auth0.com/v2/logout/" style="display:none;width=0;height=0;"></iframe>
+<a href="/"><h2>BACK TO TOP</h2></a>
+</div>
+</body>
+</html>

@@ -1,0 +1,34 @@
+<?php
+require_once("vendor/autoload.php");
+require_once("global_v.php");
+session_start();
+$login_flag = 0;
+if($_SESSION["id_token"]){
+    $login_flag = 1;
+}
+if(!$login_flag){
+    header("location:/");exit();
+}else{
+    $logouturl = "/logout/";
+}
+
+?>
+<!doctype html>
+<html>
+<head><meta charset="utf-8" /></head>
+<body>
+<div style="text-align:center;">
+<?php if(!$login_flag){ ?>
+<h1>ログアウト状態</h1>
+<a href="<?php echo $loginurl;?>"><h2>LOGIN</h2></a>
+<?php }else{ ?>
+<h1>ログイン状態</h1>
+<a href="<?php echo $logouturl;?>"><h2>LOGOUT</h2></a>
+<pre>
+<?php var_dump($_SESSION["id_token"]);?>
+</pre>
+<img src="https://d1q9av5b648rmv.cloudfront.net/v3/765x765/thermo-tumbler/360ml/white/front/6715224/1619494394-4572x4072.png.jpg?h=a924fb28d80ab4e89d6c669b8176ca54d836e2f7&printed=false">
+<?php } ?>
+</div>
+</body>
+</html>
