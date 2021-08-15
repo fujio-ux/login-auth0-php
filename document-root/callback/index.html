@@ -1,0 +1,41 @@
+<?php
+use Firebase\JWT\JWT;
+require_once("vendor/autoload.php");
+require_once("global_v.php");
+require_once("functions.php");
+
+$code = htmlspecialchars($_GET["code"]);
+$token = json_decode(get_token_from_code($GLOBALS["a0oauth"],
+                              $code,$GLOBALS["a0cid"],
+                              $GLOBALS["a0csec"],
+                              $GLOBALS["callbackuri"]) , TRUE);
+//var_dump($token);exit();
+try{
+    $publicKey = file_get_contents("/usr/share/php/rs256.pem");
+    #$decoded_ac = JWT::decode($token["access_token"], $publicKey, array('RS256'));
+    $decoded_id = JWT::decode($token["id_token"], $publicKey, array('RS256'));
+    //var_dump($decoded_id);
+}catch(Exception $e){
+    echo '<html><head></head><body><pre>';
+    var_dump($e);
+    echo '</pre></body></html>';
+    exit();
+}
+
+session_start();
+$_SESSION["access_token"] = $token["access_token"];
+$_SESSION["id_token"] = $decoded_id;
+?>
+<!doctype html>
+<html>
+<head><meta charset="utf-8" /></head>
+<body>
+<script>
+window.onload = function(){
+    alert('token取得が完了したよ！');
+    window.location.href = "/";
+}
+</script>
+</body>
+<html>
+

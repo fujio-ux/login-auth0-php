@@ -1,0 +1,38 @@
+<?php
+require_once("vendor/autoload.php");
+require_once("global_v.php");
+session_start();
+$login_flag = 0;
+if($_SESSION["id_token"]){
+    $login_flag = 1;
+}
+if(!$login_flag){
+    $params = "client_id=" .$GLOBALS["a0cid"] 
+              ."&response_type=code&scope=".urlencode("openid email profile")."&redirect_uri="
+              .urlencode($GLOBALS["callbackuri"]);
+    $loginurl = $GLOBALS["a0authorize"] ."?". $params;
+}else{
+    $logouturl = "/logout/";
+}
+
+?>
+<!doctype html>
+<html>
+<head><meta charset="utf-8" /></head>
+<body>
+<div style="text-align:center;">
+<?php if(!$login_flag){ ?>
+<h1>ログアウト状態</h1>
+<a href="<?php echo $loginurl;?>"><h2>LOGIN</h2></a>
+<?php }else{ ?>
+<h1>ログイン状態</h1>
+<a href="<?php echo $logouturl;?>"><h2>LOGOUT</h2></a>
+<a href="/ex/"><h3>メンバー専用ページ</h3></a>
+<pre>
+<?php var_dump($_SESSION["id_token"]);?>
+</pre>
+<img src="<?php $id_token = $_SESSION["id_token"]; echo $id_token->picture;?>" style="width:50%;">
+<?php } ?>
+</div>
+</body>
+</html>
