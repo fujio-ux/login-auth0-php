@@ -24,6 +24,8 @@ if(!$login_flag){
 <?php if(!$login_flag){ ?>
 <h1>ログアウト状態</h1>
 <a href="<?php echo $loginurl;?>"><h2>LOGIN</h2></a>
+<h3>このアプリは<a href="https://auth0.com/">Auth0</a>と<a href="https://github.com/firebase/php-jwt">php-jwt</a>を用いて作成しました。</h3>
+<h4><a href="https://github.com/fujio-ux/login-auth0-php.git">https://github.com/fujio-ux/login-auth0-php.git</a></h4>
 <?php }else{ ?>
 <h1>ログイン状態</h1>
 <a href="<?php echo $logouturl;?>"><h2>LOGOUT</h2></a>
